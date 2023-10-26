@@ -8,6 +8,7 @@ import getGrouped from "./get-grouped";
 import getReportsEmployees from "./get-reports-employees";
 import getTribes from "./get-tribes";
 import getTribe from "./get-tribes-id";
+import updateEmployee from "./patch-employee-id";
 import postEmployees from "./post-employees";
 
 export default async function (fastify: FastifyInstance) {
@@ -20,4 +21,5 @@ export default async function (fastify: FastifyInstance) {
   fastify.route(getGrouped(fastify));
   fastify.route(getReportsEmployees(fastify));
   fastify.route(deleteCache(fastify));
+  fastify.route(updateEmployee(fastify));
 }

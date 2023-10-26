@@ -1,9 +1,9 @@
 import { FastifyInstance } from "fastify";
 import { ResourceNotFoundError } from "../errors/resource-not-found";
-import { EmployeeBodyType, searchType } from "../routes/schemas";
+import { EmployeeBodyType, UpdateEmployeeBodyType, searchType } from "../routes/schemas";
 import { Tribe } from "./tribes.model";
 
-interface EmployeeDTO {
+export interface EmployeeDTO {
   id: number;
   name: string;
   title: string;
@@ -90,8 +90,9 @@ export async function createEmployee(
   fastify: FastifyInstance,
   employee: EmployeeBodyType
 ) {
-  await fastify.db.from(TABLE_NAME).insert(employee);
+  const id = await fastify.db.from(TABLE_NAME).insert(employee);
   await fastify.cache.del(EMPLOYEES_REPORT_CACHE_KEY);
+  return id;
 }
 
 export async function deleteEmployee(fastify: FastifyInstance, id: number) {
@@ -107,6 +108,18 @@ export async function deleteCache(fastify:FastifyInstance) {
   } catch (error) {
     return { success: false, error: (error as Error).message };
   }
+}
+
+export async function updateEmployee(
+  fastify: FastifyInstance,
+  id: number,
+  employee: UpdateEmployeeBodyType
+) {
+  await fastify.db.from(TABLE_NAME).where({ id }).update({
+    name: employee.name,
+    title: employee.title,
+    tribe_id: employee.tribe_id,
+  });
 }
 
 export async function getGrouped(fastify: FastifyInstance) {
@@ -141,3 +154,4 @@ export async function getGrouped(fastify: FastifyInstance) {
   return groupedEmployeesArray;
 
 }
+

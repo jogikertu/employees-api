@@ -1,7 +1,7 @@
 import { FastifyInstance } from "fastify";
 import { ResourceNotFoundError } from "../errors/resource-not-found";
 
-interface Tribe {
+export interface Tribe {
   id: number;
   name: string;
   department: string;
@@ -32,4 +32,4 @@ export async function getTribe(fastify: FastifyInstance, id: number): Promise<Tr
 
   return tribe;
 }
-export { Tribe };
+

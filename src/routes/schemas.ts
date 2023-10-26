@@ -20,3 +20,12 @@ export const searchEmployeeBody = Type.Object({
 });
 
 export type searchType = Static<typeof searchEmployeeBody>;
+
+export const UpdateEmployeeBodySchema = Type.Object({
+  name: Type.Optional(Type.String()),
+  title: Type.Optional(Type.String()),
+  tribe_id: Type.Optional(Type.Integer()),
+});
+
+
+export type UpdateEmployeeBodyType = Static<typeof UpdateEmployeeBodySchema>;
